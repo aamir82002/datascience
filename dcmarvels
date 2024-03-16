@@ -1,0 +1,49 @@
+my_filepath = "../input/fiverthirty/dc-wikia-data.csv"
+my_data = "../input/fiverthirty/dc-wikia-data.csv"
+my_data=  pd.read_csv(my_data)
+my_data.head()
+# Create a plot
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Create a figure with subplots
+fig, axes = plt.subplots(2, 3, figsize=(18, 10))
+
+# Plot 1: Countplot of character alignments
+sns.countplot(x='ALIGN', data=my_data, ax=axes[0, 0])
+axes[0, 0].set_title('Character Alignments')
+axes[0, 0].set_xlabel('Alignment')
+axes[0, 0].set_ylabel('Count')
+
+# Plot 2: Distribution of character appearances
+sns.histplot(my_data['APPEARANCES'], ax=axes[0, 1], kde=True)
+axes[0, 1].set_title('Distribution of Appearances')
+axes[0, 1].set_xlabel('Number of Appearances')
+axes[0, 1].set_ylabel('Frequency')
+
+# Plot 3: Relationship between eye color and hair color
+sns.scatterplot(x='EYE', y='HAIR', data=my_data, ax=axes[0, 2])
+axes[0, 2].set_title('Eye Color vs Hair Color')
+axes[0, 2].set_xlabel('Eye Color')
+axes[0, 2].set_ylabel('Hair Color')
+
+# Plot 4: Top 10 characters with the most appearances
+top_10_appearances = my_data.sort_values(by='APPEARANCES', ascending=False).head(10)
+sns.barplot(x='APPEARANCES', y='name', data=top_10_appearances, ax=axes[1, 0])
+axes[1, 0].set_title('Top 10 Characters with Most Appearances')
+axes[1, 0].set_xlabel('Number of Appearances')
+axes[1, 0].set_ylabel('Character Name')
+
+# Plot 5: Distribution of character appearances over the years
+sns.boxplot(x='YEAR', y='APPEARANCES', data=my_data, ax=axes[1, 1])
+axes[1, 1].set_title('Distribution of Appearances Over Years')
+axes[1, 1].set_xlabel('Year')
+axes[1, 1].set_ylabel('Number of Appearances')
+
+# Plot 6: Correlation heatmap
+correlation_matrix = my_data.corr()
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', ax=axes[1, 2])
+axes[1, 2].set_title('Correlation Heatmap')
+
+plt.tight_layout()
+plt.show()
